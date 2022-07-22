@@ -56,15 +56,30 @@ namespace SearchRepo.ViewModels
                 OnPropertyChanged(nameof(SearchText));
             }
         }
+        private int currentProcessedFiles;
+        public int CurrentProcessedFiles
+        {
+            get { return currentProcessedFiles; }
+            set
+            {
+                currentProcessedFiles = value;
+                OnPropertyChanged(nameof(CurrentProcessedFiles));
+            }
+        }
+        public int FilesCount
+        {
+            get { return files.Count; }
+        }
         private string searchPath;
         public MainVM()
         {
+            CurrentProcessedFiles = 0;
             GetSearchFolder();
             SearchButtonEnabled = false;
             StopButtonEnabled=false;
             SearchResults = new ObservableCollection<SearchResult>();
             files = new ObservableCollection<string>();
-            files.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilesCountLabelText));
+            files.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilesCountLabelText)); OnPropertyChanged(nameof(FilesCount));
             folders = new ObservableCollection<string>();
             folders.CollectionChanged += (s, e) => OnPropertyChanged(nameof(FilesCountLabelText));
             SearchFiles();
@@ -137,6 +152,7 @@ namespace SearchRepo.ViewModels
                           
                     }
                 });
+                CurrentProcessedFiles++;
             });
 
             SearchButtonEnabled = true;
