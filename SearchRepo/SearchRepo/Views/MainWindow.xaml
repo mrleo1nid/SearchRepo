@@ -1,0 +1,41 @@
+﻿<Window x:Class="SearchRepo.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SearchRepo" xmlns:view="clr-namespace:SearchRepo.ViewModels"
+        mc:Ignorable="d"
+        Title="Поиск по файлам" Height="600" Width="1000">
+    <Window.DataContext>
+        <view:MainVM/>
+    </Window.DataContext>
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="535*"/>
+            <RowDefinition Height="39*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="53*"/>
+            <ColumnDefinition Width="14*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="8,8,8,8" MouseDoubleClick="ResultDataGrid_MouseDoubleClick" AutoGenerateColumns="True"  ItemsSource="{Binding SearchResults, UpdateSourceTrigger=PropertyChanged}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Row" Width="70" Binding="{Binding Row}"/>
+                <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Directory" Width="200" Binding="{Binding Directory}"/>
+                <DataGridTextColumn Header="Path" Width="200" Binding="{Binding Path}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel  Orientation="Horizontal" Grid.Column="0"  Grid.Row="1">
+            <Label Margin="1" Content="{Binding FilesCountLabelText}" VerticalAlignment="Center"/>
+        </StackPanel>
+        <Label  Grid.Column="1" Grid.Row="1" Content="Текст для поиска" VerticalAlignment="Center" HorizontalAlignment="Center" Height="26" Width="102"/>
+        <TextBox Grid.Column="2" Grid.Row="1" Margin="5,5,5,5" Text="{Binding SearchText}"></TextBox>
+        <StackPanel  Orientation="Horizontal" Grid.Column="3" Margin="1" Grid.Row="1">
+            <Button Grid.Column="1" Grid.Row="1" Margin="5,5,5,5" Content="Поиск" IsEnabled="{Binding SearchButtonEnabled}" Command="{Binding StartSearchCommand}"></Button>
+            <Button Grid.Column="1" Grid.Row="1" Margin="5,5,5,5" Content="Остановить" IsEnabled="{Binding StopButtonEnabled}" Command="{Binding StopSearchCommand}"></Button>
+        </StackPanel>
+    </Grid>
+</Window>
